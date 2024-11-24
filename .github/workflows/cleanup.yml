@@ -1,4 +1,4 @@
-name: Remove .DS_Store Files
+name: clean up
 
 on:
   push:
@@ -25,8 +25,13 @@ jobs:
       - name: Find and remove .DS_Store files
         run: |
           git rm --cached $(git ls-files | grep .DS_Store) || echo "No .DS_Store files found"
-          git commit -m "Remove .DS_Store files" || echo "No changes to commit"
-
+          git commit -m "Remove .DS_Store files" || echo "No changes to commit
+          
+      - name: Find and remove .Rhistory files
+        run: |
+          git rm --cached $(git ls-files | grep .Rhistory) || echo "No .Rhistory files found"
+          git commit -m "Remove .Rhistory files" || echo "No changes to commit"
+        
       - name: Push changes to repository
         run: |
           git push origin HEAD || echo "No changes pushed"
