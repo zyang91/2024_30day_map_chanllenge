@@ -25,7 +25,7 @@ jobs:
       - name: Find and remove .DS_Store files
         run: |
           git rm --cached $(git ls-files | grep .DS_Store) || echo "No .DS_Store files found"
-          git commit -m "Remove .DS_Store files" || echo "No changes to commit
+          git commit -m "Remove .DS_Store files" || echo "No changes to commit"
           
       - name: Find and remove .Rhistory files
         run: |
