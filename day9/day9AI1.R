@@ -33,4 +33,3 @@ ggplot() +
     caption = "Visualization created using R and ChatGPT"        # Add attribution in the caption
   ) +
   theme_minimal()                                                # Use a clean and minimal theme
-

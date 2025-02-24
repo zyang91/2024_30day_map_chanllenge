@@ -94,4 +94,3 @@ ggplot(states_sf) +
        caption = 'Source: NHTSA FARS 2022\nCreated by Zhanchao Yang',
        
   )
-
