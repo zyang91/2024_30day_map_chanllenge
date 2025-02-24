@@ -15,5 +15,3 @@ Deliverables:
 - 2 maps of your choice
 
 In addition to the maps you must write out your approach to the map. At minimum, you need to report your data sources used, the software you used (R, ArcPro, Illustrator etc), the broad steps you took/techniques you used, and what, if any, maps served as inspiration.
-
-
