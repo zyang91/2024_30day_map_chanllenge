@@ -10,14 +10,14 @@ library(tidyverse)
 philly_bbox <- getbb("Philadelphia, Pennsylvania, USA")
 
 # Step 4: Fetch road network data from OpenStreetMap
-philly_highways <- opq(bbox = philly_bbox) %>% 
-  add_osm_feature(key = "highway") %>% 
+philly_highways <- opq(bbox = philly_bbox) %>%
+  add_osm_feature(key = "highway") %>%
   osmdata_sf()
 
 # Step 5: Filter and keep only important road types
 # Include major road types: motorway, primary, secondary, tertiary
 important_roads <- philly_highways$osm_lines %>%
-  filter(highway %in% c("motorway", "primary", "secondary", "tertiary")) %>% 
+  filter(highway %in% c("motorway", "primary", "secondary", "tertiary")) %>%
   mutate(road_type = factor(highway, levels = c("motorway", "primary", "secondary", "tertiary")))
 
 # Step 6: Plot the filtered road network

@@ -12,12 +12,12 @@ crime_2020 <- st_read("2020/incidents_part1_part2.shp")
 crime_2019 <- st_read("2019/incidents_part1_part2.shp")
 
 
-crime_2023<-crime_2023 %>% 
+crime_2023<-crime_2023 %>%
   filter(str_starts(text_gener, "Homicide")) %>%
   select(text_gener, geometry)
 crime_2023$year<- 2023
 
-crime_2022<-crime_2022 %>% 
+crime_2022<-crime_2022 %>%
   filter(str_starts(text_gener, "Homicide")) %>%
   select(text_gener, geometry)
 crime_2022$year<- 2022
