@@ -16,9 +16,9 @@ mapTheme <- theme(plot.title =element_text(size=12),
                   panel.border=element_blank(),
                   panel.grid.major=element_line(colour = 'transparent'),
                   panel.grid.minor=element_blank(),
-                  legend.direction = "vertical", 
+                  legend.direction = "vertical",
                   legend.position = "right",
-                  
+
                   legend.key.height = unit(1, "cm"), legend.key.width = unit(0.2, "cm"))
 q5 <- function(variable) {as.factor(ntile(variable, 5))}
 flatreds5 <- c('#f9ebea','#e6b0aa','#c2665b', '#a33428','#7b241c')
@@ -32,7 +32,7 @@ qBr <- function(df, variable, rnd) {
                          digits = 3))
   }
 }
-current_path = rstudioapi::getActiveDocumentContext()$path 
+current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path ))
 con <- dbConnect(duckdb::duckdb(), dbdir = "raw_data.duckdb")
 dbListTables(con)
@@ -44,11 +44,11 @@ query <- "
 
 result <- dbGetQuery(con, query)
 
-result<- result %>% 
+result<- result %>%
   filter(AGE <18 & INJ_SEV==4)
 
-result <- result %>% 
-  group_by(STATE) %>% 
+result <- result %>%
+  group_by(STATE) %>%
   summarise(count=n())
 
 library(tidycensus)
@@ -68,29 +68,29 @@ acs_under_18$GEOID <- as.numeric(acs_under_18$GEOID)
 
 state_fat <- left_join(acs_under_18, result, by= c("GEOID" = "STATE"))
 
-state_fat <- state_fat %>% 
-  mutate(fatality_rate = count/estimate*1000) 
+state_fat <- state_fat %>%
+  mutate(fatality_rate = count/estimate*1000)
 
 state_dets <- read.csv('./state-details.csv')
 state_dets$stusps <- substr(state_dets$stusps, 2, nchar(state_dets$stusps))
-states_sf <- st_read('./us_states_hexgrid.gpkg') %>% left_join(state_dets, by=c('iso3166_2'='stusps')) %>% 
+states_sf <- st_read('./us_states_hexgrid.gpkg') %>% left_join(state_dets, by=c('iso3166_2'='stusps')) %>%
   left_join(state_fat, by=c('st'='GEOID')) %>% st_transform(3857)#project to mercator pcs
 text_inv <- c('black', 'white','white','white','white')
 
 ggplot(states_sf) +
   geom_sf(aes(fill= q5(fatality_rate)), color='white') +
   scale_fill_manual(values = flatreds5,
-                    labels = qBr(states_sf, 'fatality_rate'), 
+                    labels = qBr(states_sf, 'fatality_rate'),
                     name = 'Children Traffic Fatality rate') +
   geom_sf_text(aes(label = iso3166_2, color = q5(fatality_rate)), size=2)+
   scale_color_manual(values=text_inv)+
   mapTheme+
   guides(color = "none")+
-  
+
   theme(legend.position = 'right')+
-  
+
   labs(title=' Children Traffic Fatalities Rate Across US States in 2022',
        subtitle = 'Aged 18 and under',
        caption = 'Source: NHTSA FARS 2022\nCreated by Zhanchao Yang',
-       
+
   )

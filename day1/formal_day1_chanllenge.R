@@ -6,7 +6,7 @@ setwd("/Users/apple/Desktop/data")
 
 crime_2023 <- st_read("2023/incidents_part1_part2.shp")
 
-crime_2023<-crime_2023 %>% 
+crime_2023<-crime_2023 %>%
   filter(str_starts(text_gener, "Homicide")) %>%
   select(text_gener, geometry,dispatch_d)%>%
   rename("crime_type" = text_gener, "date" = dispatch_d)
@@ -26,9 +26,9 @@ leaflet(data) %>%
                     "<strong>Date:</strong> ", date),
     clusterOptions = markerClusterOptions()
   ) %>%
-  addPolygons(data = Philly, 
-              color = "black", 
-              weight = 2, 
+  addPolygons(data = Philly,
+              color = "black",
+              weight = 2,
               fill = FALSE) %>%
   addControl("<h3>Interactive Homicide Map of Philadelphia</h3>
               <p>Made by Zhanchao Yang</p>",
@@ -60,9 +60,9 @@ map<-leaflet(data) %>%
                     "<strong>Date:</strong> ", date),
     clusterOptions = markerClusterOptions()
   ) %>%
-  addPolygons(data = Philly, 
-              color = "black", 
-              weight = 2, 
+  addPolygons(data = Philly,
+              color = "black",
+              weight = 2,
               fill = FALSE) %>%
   addControl("<h3>Interactive Homicide Map of Philadelphia</h3>
               <p>Made by Zhanchao Yang</p>",
